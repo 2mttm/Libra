@@ -30,7 +30,6 @@ public class SecurityConfig extends VaadinWebSecurity {
     public UserDetailsService users() {
         UserDetails user = User.builder()
                 .username("user")
-                // password = password with this hash, don't tell anybody :-)
                 .password("{bcrypt}$2a$10$GRLdNijSQMUvl/au9ofL.eDwmoohzzS7.rmNSJZ.0FxO/BTk76klW")
                 .roles("USER")
                 .build();

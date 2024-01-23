@@ -29,6 +29,9 @@ public class CrmService {
             return issueRepository.search(stringFilter);
         }
     }
+    public List<Issue> findAllIssues() {
+        return issueRepository.findAll();
+    }
 
     public long countIssues() {
         return issueRepository.count();
