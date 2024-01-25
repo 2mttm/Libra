@@ -7,6 +7,8 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.PermitAll;
@@ -14,10 +16,10 @@ import org.vaadin.example.entity.Issue;
 import org.vaadin.example.services.CrmService;
 
 import java.util.List;
-@Route(value = "issues", layout = MainLayout.class)
+@Route(value = "issues/:filterText?", layout = MainLayout.class)
 @PageTitle("Issues | Libra")
 @PermitAll
-public class IssueView extends VerticalLayout {
+public class IssueView extends VerticalLayout implements BeforeEnterObserver {
     Grid<Issue> grid = new Grid<>(Issue.class, false);
     TextField searchField = new TextField();
 
@@ -72,5 +74,14 @@ public class IssueView extends VerticalLayout {
     }
     private boolean matchesTerm(String value, String searchTerm) {
         return value.toLowerCase().contains(searchTerm.toLowerCase());
+    }
+    private void setSearchField(String text){
+        searchField.setValue(text);
+    }
+
+    @Override
+    public void beforeEnter(BeforeEnterEvent event) {
+        if (event.getRouteParameters().get("filterText").isPresent())
+            setSearchField(event.getRouteParameters().get("filterText").get());
     }
 }

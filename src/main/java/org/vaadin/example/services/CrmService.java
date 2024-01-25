@@ -4,8 +4,10 @@ import org.springframework.stereotype.Service;
 import org.vaadin.example.entity.Issue;
 import org.vaadin.example.entity.Pos;
 import org.vaadin.example.entity.User;
+import org.vaadin.example.entity.UserGroup;
 import org.vaadin.example.repository.IssueRepository;
 import org.vaadin.example.repository.PosRepository;
+import org.vaadin.example.repository.UserGroupRepository;
 import org.vaadin.example.repository.UserRepository;
 
 import java.util.List;
@@ -15,11 +17,13 @@ public class CrmService {
     private final IssueRepository issueRepository;
     private final PosRepository posRepository;
     private final UserRepository userRepository;
+    private final UserGroupRepository userGroupRepository;
 
-    public CrmService(IssueRepository issueRepository, PosRepository posRepository, UserRepository userRepository) {
+    public CrmService(IssueRepository issueRepository, PosRepository posRepository, UserRepository userRepository, UserGroupRepository userGroupRepository) {
         this.issueRepository = issueRepository;
         this.posRepository = posRepository;
         this.userRepository = userRepository;
+        this.userGroupRepository = userGroupRepository;
     }
 
     public List<Issue> findAllIssues(String stringFilter) {
@@ -48,6 +52,13 @@ public class CrmService {
         }
         issueRepository.save(issue);
     }
+    public void saveUser(User user) {
+        if (user == null) {
+            System.err.println("User is null. Are you sure you have connected your form to the application?");
+            return;
+        }
+        userRepository.save(user);
+    }
 
     public List<Pos> findAllPoses() {
         return posRepository.findAll();
@@ -55,5 +66,8 @@ public class CrmService {
 
     public List<User> findAllUsers(){
         return userRepository.findAll();
+    }
+    public List<UserGroup> findAllGroups(){
+        return userGroupRepository.findAll();
     }
 }
