@@ -11,6 +11,7 @@ import org.vaadin.example.repository.UserGroupRepository;
 import org.vaadin.example.repository.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CrmService {
@@ -59,6 +60,9 @@ public class CrmService {
         }
         userRepository.save(user);
     }
+    public void deleteUser(User user){
+        userRepository.delete(user);
+    }
 
     public List<Pos> findAllPoses() {
         return posRepository.findAll();
@@ -69,5 +73,8 @@ public class CrmService {
     }
     public List<UserGroup> findAllGroups(){
         return userGroupRepository.findAll();
+    }
+    public Optional<User> findUserById(Long id){
+        return userRepository.findById(id);
     }
 }

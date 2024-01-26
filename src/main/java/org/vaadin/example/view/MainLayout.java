@@ -65,7 +65,7 @@ public class MainLayout extends AppLayout {
 
         SideNavItem usersMenu = new SideNavItem("Users");
         usersMenu.setPrefixComponent(VaadinIcon.USERS.create());
-        usersMenu.addItem(new SideNavItem("Add User", UserAddView.class));
+        usersMenu.addItem(new SideNavItem("Add User", "user/new"));
         usersMenu.addItem(new SideNavItem("Browse Users", UserView.class));
 
         sideNav.addItem(
