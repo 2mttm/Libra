@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -25,11 +27,13 @@ public class Pos { // Point of Sale
     private String brand;
     @ManyToOne
     private ConnectionType connectionType;
-    private LocalDateTime morningOpening;
-    private LocalDateTime morningClosing;
-    private LocalDateTime afternoonOpening;
-    private LocalDateTime afternoonClosing;
+    private LocalTime morningOpening;
+    private LocalTime morningClosing;
+    private LocalTime afternoonOpening;
+    private LocalTime afternoonClosing;
     @Column(columnDefinition = "SET('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')")
     private String closedDays;
     private LocalDateTime insertDate;
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Issue> issues;
 }

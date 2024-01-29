@@ -34,7 +34,6 @@ public class UserView extends VerticalLayout {
 
         List<User> users = crmService.findAllUsers();
         GridListDataView<User> dataView = grid.setItems(users);
-        System.out.println(users.size());
 
         searchField.setWidth("50%");
         searchField.setPlaceholder("Search");
@@ -103,7 +102,7 @@ public class UserView extends VerticalLayout {
             addItem("Delete", e -> e.getItem().ifPresent(user -> {
                 dialog.addConfirmListener(event -> {
                     crmService.deleteUser(user);
-                    UI.getCurrent().navigate(UserView.class);
+                    UI.getCurrent().navigate(UserView.class); //TODO: it doesn't update the page
                 });
                 dialog.open();
             }));

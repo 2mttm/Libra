@@ -20,7 +20,6 @@ import com.vaadin.flow.data.converter.StringToLongConverter;
 import com.vaadin.flow.router.*;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import jakarta.annotation.security.PermitAll;
-import lombok.Getter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.vaadin.example.entity.User;
@@ -29,11 +28,9 @@ import org.vaadin.example.services.CrmService;
 
 import java.util.Optional;
 
-
 @Route(value = "user", layout = MainLayout.class)
 @PageTitle("Users | Libra")
 @PermitAll
-@Getter
 public class UserAddView extends VerticalLayout implements HasUrlParameter<String> {
     private User user;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -51,7 +48,7 @@ public class UserAddView extends VerticalLayout implements HasUrlParameter<Strin
     private final Select<UserGroup> group = new Select<>();
     private Button submitButton;
 
-    private BeanValidationBinder<User> binder;
+    private final BeanValidationBinder<User> binder = new BeanValidationBinder<>(User.class);
 
     public UserAddView(CrmService crmService) {
         this.crmService = crmService;
@@ -65,6 +62,7 @@ public class UserAddView extends VerticalLayout implements HasUrlParameter<Strin
         userData = new Span("User Data");
         userData.addClassNames("bg-primary-10", LumoUtility.FontSize.LARGE);
         userData.getStyle().set("padding", "15px");
+        userData.getStyle().set("box-sizing", "border-box");
         userData.setSizeFull();
 
         id.setReadOnly(true);
@@ -95,7 +93,6 @@ public class UserAddView extends VerticalLayout implements HasUrlParameter<Strin
                 new FormLayout.ResponsiveStep("500px", 3),
                 new FormLayout.ResponsiveStep("720px", 4));
 
-        binder = new BeanValidationBinder<>(User.class);
         binder.setBean(user);
 
         binder.bind(login, User::getLogin, User::setLogin);
@@ -103,6 +100,11 @@ public class UserAddView extends VerticalLayout implements HasUrlParameter<Strin
         binder.bind(telephone, User::getTelephone, User::setTelephone);
         binder.bind(email, User::getEmail, User::setEmail);
         binder.bind(group, User::getUserGroup, User::setUserGroup);
+
+        binder.forField(id)
+                .withNullRepresentation("")
+                .withConverter(new StringToLongConverter("Wrong id data type"))
+                .bind(User::getId, User::setId);
 
         formCard.addClassNames("border", "border-primary-50", "rounded-m");
         formCard.add(userData, formLayout);
@@ -120,6 +122,7 @@ public class UserAddView extends VerticalLayout implements HasUrlParameter<Strin
     }
 
     private void addUserForm(FormLayout formLayout) {
+        login.setReadOnly(false);
         binder.bind(password, User::getPassword, User::setPassword);
         formLayout.remove(id);
     }
@@ -128,11 +131,6 @@ public class UserAddView extends VerticalLayout implements HasUrlParameter<Strin
         topText.setText("Edit User");
         login.setReadOnly(true);
         formLayout.remove(password);
-
-        binder.forField(id)
-                .withNullRepresentation("")
-                .withConverter(new StringToLongConverter("Wrong id data type"))
-                .bind(User::getId, User::setId);
 
         id.setValue(user.getId().toString());
         login.setValue(user.getLogin());
