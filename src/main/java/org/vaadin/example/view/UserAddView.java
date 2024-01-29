@@ -20,6 +20,7 @@ import com.vaadin.flow.data.converter.StringToLongConverter;
 import com.vaadin.flow.router.*;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import jakarta.annotation.security.PermitAll;
+import lombok.Getter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.vaadin.example.entity.User;
@@ -32,21 +33,22 @@ import java.util.Optional;
 @Route(value = "user", layout = MainLayout.class)
 @PageTitle("Users | Libra")
 @PermitAll
+@Getter
 public class UserAddView extends VerticalLayout implements HasUrlParameter<String> {
     private User user;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    private CrmService crmService;
+    private final CrmService crmService;
 
-    private H1 topText;
+    private final H1 topText = new H1("Add User");
     private Span userData;
 
-    private TextField id;
-    private TextField login;
-    private PasswordField password;
-    private TextField name;
-    private TextField telephone;
-    private EmailField email;
-    private Select<UserGroup> group;
+    private final TextField id = new TextField("ID");
+    private final TextField login = new TextField("Login");
+    private final PasswordField password = new PasswordField("Password");
+    private final TextField name = new TextField("Name");
+    private final TextField telephone = new TextField("Telephone");
+    private final EmailField email = new EmailField("Email");
+    private final Select<UserGroup> group = new Select<>();
     private Button submitButton;
 
     private BeanValidationBinder<User> binder;
@@ -60,38 +62,25 @@ public class UserAddView extends VerticalLayout implements HasUrlParameter<Strin
         formCard.setPadding(false);
         removeAll();
 
-        topText = new H1();
-
         userData = new Span("User Data");
         userData.addClassNames("bg-primary-10", LumoUtility.FontSize.LARGE);
         userData.getStyle().set("padding", "15px");
         userData.setSizeFull();
 
-        id = new TextField("ID");
         id.setReadOnly(true);
 
-        login = new TextField("Login");
         login.setPrefixComponent(VaadinIcon.SIGN_IN.create());
         login.addThemeVariants(TextFieldVariant.MATERIAL_ALWAYS_FLOAT_LABEL);
 
-        password = new PasswordField("Password");
         password.setPrefixComponent(VaadinIcon.LOCK.create());
-
-        Hr hr = new Hr();
-
-        name = new TextField("Name");
         name.setPrefixComponent(VaadinIcon.USER.create());
-
-        telephone = new TextField("Telephone");
         telephone.setPrefixComponent(VaadinIcon.PHONE.create());
-
-        email = new EmailField("Email");
         email.setPrefixComponent(VaadinIcon.MAILBOX.create());
 
-        group = new Select<>();
         group.setLabel("User Group");
         group.setItems(crmService.findAllGroups());
 
+        Hr hr = new Hr();
         FormLayout formLayout = new FormLayout();
         formLayout.getStyle().set("padding", "15px");
 
@@ -131,7 +120,6 @@ public class UserAddView extends VerticalLayout implements HasUrlParameter<Strin
     }
 
     private void addUserForm(FormLayout formLayout) {
-        topText.setText("Add User");
         binder.bind(password, User::getPassword, User::setPassword);
         formLayout.remove(id);
     }
