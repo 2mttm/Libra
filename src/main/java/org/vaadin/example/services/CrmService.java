@@ -51,12 +51,12 @@ public class CrmService {
         }
         issueRepository.save(issue);
     }
-    public void saveUser(User user) {
+    public User saveUser(User user) {
         if (user == null) {
             System.err.println("User is null. Are you sure you have connected your form to the application?");
-            return;
+            return null;
         }
-        userRepository.save(user);
+        return userRepository.save(user);
     }
     public void deleteUser(User user){
         userRepository.delete(user);

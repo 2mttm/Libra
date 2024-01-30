@@ -8,7 +8,6 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Hr;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.EmailField;
@@ -20,10 +19,9 @@ import com.vaadin.flow.data.converter.StringToLongConverter;
 import com.vaadin.flow.router.*;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import jakarta.annotation.security.PermitAll;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.vaadin.example.entity.User;
 import org.vaadin.example.entity.UserGroup;
+import org.vaadin.example.presenter.UserPresenter;
 import org.vaadin.example.services.CrmService;
 
 import java.util.Optional;
@@ -33,8 +31,9 @@ import java.util.Optional;
 @PermitAll
 public class UserAddView extends VerticalLayout implements HasUrlParameter<String> {
     private User user;
-    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     private final CrmService crmService;
+    private final UserPresenter userPresenter;
 
     private final H1 topText = new H1("Add User");
     private Span userData;
@@ -50,8 +49,9 @@ public class UserAddView extends VerticalLayout implements HasUrlParameter<Strin
 
     private final BeanValidationBinder<User> binder = new BeanValidationBinder<>(User.class);
 
-    public UserAddView(CrmService crmService) {
+    public UserAddView(CrmService crmService, UserPresenter userPresenter) {
         this.crmService = crmService;
+        this.userPresenter = userPresenter;
     }
 
     private void createFormCard(boolean editMode) {
@@ -111,12 +111,12 @@ public class UserAddView extends VerticalLayout implements HasUrlParameter<Strin
 
         if (editMode){
             editUserForm(formLayout);
-            submitButton = getSubmitButton(true);
         } else {
             addUserForm(formLayout);
-            submitButton = getSubmitButton(false);
         }
-
+        submitButton = new Button("Submit");
+        submitButton.addClickListener(e -> userPresenter.onUserSaved(user, binder, editMode));
+        submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         add(topText, new Hr());
         add(formCard, submitButton);
     }
@@ -131,31 +131,7 @@ public class UserAddView extends VerticalLayout implements HasUrlParameter<Strin
         topText.setText("Edit User");
         login.setReadOnly(true);
         formLayout.remove(password);
-
-        id.setValue(user.getId().toString());
-        login.setValue(user.getLogin());
-        name.setValue(user.getName());
-        telephone.setValue(user.getTelephone());
-        email.setValue(user.getEmail());
-        group.setValue(user.getUserGroup());
-    }
-    private Button getSubmitButton(boolean editMode) {
-        Button submitButton = new Button("Submit", event -> {
-            try {
-                binder.writeBean(user);
-                if (!editMode) {
-                    user.setPassword(passwordEncoder.encode(user.getPassword()));
-                }
-                crmService.saveUser(user);
-                Notification.show("User saved successfully", 5000, Notification.Position.TOP_CENTER);
-                UI.getCurrent().navigate(UserView.class);
-            } catch (Exception e) {
-                Notification.show("Unexpected error: " + e.getMessage(), 5000, Notification.Position.TOP_CENTER);
-            }
-        });
-        submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-
-        return submitButton;
+        binder.setBean(user);
     }
 
     @Override

@@ -10,7 +10,6 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Hr;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
@@ -18,6 +17,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.PermitAll;
 import org.vaadin.example.entity.User;
+import org.vaadin.example.presenter.UserPresenter;
 import org.vaadin.example.services.CrmService;
 
 import java.util.List;
@@ -26,14 +26,22 @@ import java.util.List;
 @PageTitle("Users | Libra")
 @PermitAll
 public class UserView extends VerticalLayout {
-    Grid<User> grid = new Grid<>(User.class, false);
-    TextField searchField = new TextField();
-    public UserView(CrmService crmService) {
+    private final CrmService crmService;
+    private final UserPresenter userPresenter;
+
+    private List<User> users;
+    private Grid<User> grid = new Grid<>(User.class, false);
+    private GridListDataView<User> dataView;
+    private TextField searchField = new TextField();
+    public UserView(CrmService crmService, UserPresenter userPresenter) {
+        this.crmService = crmService;
+        this.userPresenter = userPresenter;
+
         setSizeFull();
         configureGrid();
 
-        List<User> users = crmService.findAllUsers();
-        GridListDataView<User> dataView = grid.setItems(users);
+        users = userPresenter.getUsers();
+        dataView = grid.setItems(users);
 
         searchField.setWidth("50%");
         searchField.setPlaceholder("Search");
@@ -56,7 +64,7 @@ public class UserView extends VerticalLayout {
             return matchesName || matchesEmail || matchesGroup || matchesLogin || matchesPhone;
         });
 
-        UserContextMenu contextMenu = new UserContextMenu(grid, crmService);
+        UserContextMenu contextMenu = new UserContextMenu(grid, userPresenter);
 
         add(new H1("Users Manager"), new Hr());
         add(searchField);
@@ -83,8 +91,12 @@ public class UserView extends VerticalLayout {
         return value.toLowerCase().contains(searchTerm.toLowerCase());
     }
 
-    private static class UserContextMenu extends GridContextMenu<User> {
-        public UserContextMenu(Grid<User> target, CrmService crmService) {
+    public void navigateToUserView() {
+        UI.getCurrent().navigate(UserView.class);
+    }
+
+    private class UserContextMenu extends GridContextMenu<User> {
+        public UserContextMenu(Grid<User> target, UserPresenter presenter) {
             super(target);
 
             ConfirmDialog dialog = new ConfirmDialog();
@@ -96,46 +108,18 @@ public class UserView extends VerticalLayout {
             dialog.setConfirmText("Delete");
             dialog.setConfirmButtonTheme("error primary");
 
-            addItem("Edit", e -> e.getItem().ifPresent(user -> {
-                UI.getCurrent().navigate("user/" + user.getId());
-            }));
-            addItem("Delete", e -> e.getItem().ifPresent(user -> {
-                dialog.addConfirmListener(event -> {
-                    crmService.deleteUser(user);
-                    UI.getCurrent().navigate(UserView.class); //TODO: it doesn't update the page
-                });
-                dialog.open();
-            }));
-
+            addItem("Edit", e -> e.getItem().ifPresent(presenter::onEditUserClicked));
+            addItem("Delete", e -> e.getItem().ifPresent(presenter::onDeleteUserClicked));
             add(new Hr());
-
-            GridMenuItem<User> emailItem = addItem("Email", e -> e.getItem().ifPresent(user -> {
-                String email = user.getEmail();
-                if (email != null && !email.isEmpty()) {
-                    String mailtoLink = "mailto:" + email;
-                    UI.getCurrent().getPage().executeJs("window.location.href = $0", mailtoLink);
-                } else {
-                    Notification.show("User's email is not available.");
-                }
-            }));
-            GridMenuItem<User> phoneItem = addItem("Call", e -> e.getItem().ifPresent(user -> {
-                String phoneNumber = user.getTelephone();
-                if (phoneNumber != null && !phoneNumber.isEmpty()) {
-                    String telLink = "tel:" + phoneNumber;
-                    UI.getCurrent().getPage().executeJs("window.location.href = $0", telLink);
-                } else {
-                    Notification.show("User's phone number is not available.");
-                }
-            }));
+            GridMenuItem<User> emailItem = addItem("Email", e -> e.getItem().ifPresent(userPresenter::onEmailClicked));
+            GridMenuItem<User> phoneItem = addItem("Call", e -> e.getItem().ifPresent(userPresenter::onPhoneClicked));
 
             setDynamicContentHandler(person -> {
                 // Do not show context menu when header is clicked
                 if (person == null)
                     return false;
-                emailItem
-                        .setText(String.format("Email: %s", person.getEmail()));
-                phoneItem.setText(String.format("Call: %s",
-                        person.getTelephone()));
+                emailItem.setText(String.format("Email: %s", person.getEmail()));
+                phoneItem.setText(String.format("Call: %s", person.getTelephone()));
                 return true;
             });
         }
