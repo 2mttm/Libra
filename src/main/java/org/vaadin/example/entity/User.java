@@ -40,6 +40,12 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();
     }
+    public boolean hasRole(String target){
+        for (Role role : roles){
+            if (role.getName().equals(target)) return true;
+        }
+        return false;
+    }
 
     @Override
     public String getUsername() {

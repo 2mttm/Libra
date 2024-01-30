@@ -10,16 +10,21 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.sidenav.SideNav;
 import com.vaadin.flow.component.sidenav.SideNavItem;
+import com.vaadin.flow.spring.security.AuthenticationContext;
 import com.vaadin.flow.theme.lumo.LumoUtility;
+import org.vaadin.example.entity.User;
 import org.vaadin.example.security.SecurityService;
 
 public class MainLayout extends AppLayout {
     private final SecurityService securityService;
 
-    public MainLayout(SecurityService securityService) {
+    public MainLayout(SecurityService securityService, AuthenticationContext authContext) {
         this.securityService = securityService;
         createHeader();
-        addToDrawer(getSideNav());
+        authContext.getAuthenticatedUser(User.class).ifPresent(u -> {
+            if (u.hasRole("ROLE_ADMIN")) addToDrawer(getSideNav(true));
+            else addToDrawer(getSideNav(false));
+        });
     }
 
     private void createHeader() {
@@ -50,7 +55,7 @@ public class MainLayout extends AppLayout {
 
     }
 
-    private SideNav getSideNav() {
+    private SideNav getSideNav(boolean isAdmin) {
         SideNav sideNav = new SideNav();
 
         SideNavItem posMenu = new SideNavItem("POS");
@@ -71,9 +76,10 @@ public class MainLayout extends AppLayout {
         sideNav.addItem(
                 new SideNavItem("Dashboard", DashboardView.class, VaadinIcon.DASHBOARD.create()),
                 posMenu,
-                issuesMenu,
-                usersMenu
+                issuesMenu
         );
+        if (isAdmin) sideNav.addItem(usersMenu);
+
         return sideNav;
     }
 }

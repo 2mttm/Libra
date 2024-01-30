@@ -18,7 +18,7 @@ import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.converter.StringToLongConverter;
 import com.vaadin.flow.router.*;
 import com.vaadin.flow.theme.lumo.LumoUtility;
-import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import org.vaadin.example.entity.User;
 import org.vaadin.example.entity.UserGroup;
 import org.vaadin.example.presenter.UserPresenter;
@@ -28,7 +28,7 @@ import java.util.Optional;
 
 @Route(value = "user", layout = MainLayout.class)
 @PageTitle("Users | Libra")
-@PermitAll
+@RolesAllowed("ROLE_ADMIN")
 public class UserAddView extends VerticalLayout implements HasUrlParameter<String> {
     private User user;
 
@@ -89,8 +89,6 @@ public class UserAddView extends VerticalLayout implements HasUrlParameter<Strin
         formLayout.setColspan(hr, 4);
         formLayout.setResponsiveSteps(
                 new FormLayout.ResponsiveStep("0", 1),
-                new FormLayout.ResponsiveStep("320px", 2),
-                new FormLayout.ResponsiveStep("500px", 3),
                 new FormLayout.ResponsiveStep("720px", 4));
 
         binder.setBean(user);
