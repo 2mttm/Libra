@@ -17,7 +17,7 @@ public class IssueGrid extends VerticalLayout {
     private final IssuePresenter issuePresenter;
     private Grid<Issue> grid = new Grid<>(Issue.class, false);
     private GridListDataView<Issue> dataView;
-
+    private TextField combinedSearchField = new TextField();
     public IssueGrid(IssuePresenter issuePresenter) {
         this.issuePresenter = issuePresenter;
         configureGrid();
@@ -28,9 +28,11 @@ public class IssueGrid extends VerticalLayout {
         add(getCombinedFilter());
         add(grid);
     }
+    public void setSearchField(String text){
+        combinedSearchField.setValue(text);
+    }
     public HorizontalLayout getCombinedFilter(){
         HorizontalLayout layout = new HorizontalLayout();
-        TextField combinedSearchField = new TextField();
 
         layout.setWidthFull();
 
@@ -46,11 +48,16 @@ public class IssueGrid extends VerticalLayout {
             if (searchTerm.isEmpty())
                 return true;
 
-            boolean matchesFullName = matchesTerm(issue.getMemo(), searchTerm);
-            boolean matchesEmail = matchesTerm(issue.getDescription(), searchTerm);
-            boolean matchesProfession = matchesTerm(issue.getSolution(), searchTerm);
+            boolean matchesId = matchesTerm(issue.getId().toString(), searchTerm);
+            boolean matchesPos = matchesTerm(issue.getPos().getName(), searchTerm);
+            boolean matchesOwner = matchesTerm(issue.getOwner().getName(), searchTerm);
+            boolean matchesDate = matchesTerm(issue.getCreatedDate().toString(), searchTerm);
+            boolean matchesType = matchesTerm(issue.getType().getName(), searchTerm);
+            boolean matchesStatus = matchesTerm(issue.getStatus().getName(), searchTerm);
+            boolean matchesAssignee = matchesTerm(issue.getAssignedGroup().getName(), searchTerm);
+            boolean matchesMemo = matchesTerm(issue.getMemo(), searchTerm);
 
-            return matchesFullName || matchesEmail || matchesProfession;
+            return matchesId || matchesPos || matchesOwner || matchesDate || matchesType || matchesStatus || matchesAssignee || matchesMemo;
         });
 
         layout.add(combinedSearchField);

@@ -66,7 +66,7 @@ public class DashboardView extends VerticalLayout {
         b.setWidthFull();
         b.getStyle().set("margin", "0");
         b.addClickListener(event -> {
-            UI.getCurrent().navigate(IssuesView.class, new RouteParameters("filterText", text));
+            UI.getCurrent().navigate(IssuesView.class, new RouteParameters("filterText", text.split(" ")[0]));
         });
 
         innerLayout.add(amountText, messageText);
