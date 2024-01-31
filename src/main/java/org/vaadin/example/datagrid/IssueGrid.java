@@ -67,7 +67,7 @@ public class IssueGrid extends VerticalLayout {
         return value.toLowerCase().contains(searchTerm.toLowerCase());
     }
     private void configureGrid() {
-        grid.setSizeFull();
+        grid.setAllRowsVisible(true);
         grid.addColumn(issue -> issue.getId()).setHeader("Issue ID");
         grid.addColumn(issue -> issue.getPos().getId()).setHeader("Pos. ID");
         grid.addColumn(issue -> issue.getPos().getName()).setHeader("Pos. Name");

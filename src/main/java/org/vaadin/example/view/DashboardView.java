@@ -15,6 +15,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteParameters;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import jakarta.annotation.security.PermitAll;
+import org.vaadin.example.datagrid.IssueGrid;
 import org.vaadin.example.presenter.IssuePresenter;
 
 @Route(value = "", layout = MainLayout.class)
@@ -32,7 +33,7 @@ public class DashboardView extends VerticalLayout {
         dashboardLayout.setWidthFull();
         add(dashboardLayout);
 
-        add(new IssuesView(issuePresenter));
+        add(new IssueGrid(issuePresenter));
     }
 
     private Component createDashboardItem(VaadinIcon icon, String text, int amount, String theme) {
