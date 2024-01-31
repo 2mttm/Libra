@@ -22,13 +22,15 @@ import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.WildcardParameter;
 import jakarta.annotation.security.PermitAll;
+import org.vaadin.example.datagrid.LogGrid;
 import org.vaadin.example.datagrid.PosGrid;
 import org.vaadin.example.entity.*;
+import org.vaadin.example.presenter.IssuePresenter;
+import org.vaadin.example.presenter.LogPresenter;
 import org.vaadin.example.presenter.PosPresenter;
 import org.vaadin.example.security.SecurityService;
 import org.vaadin.example.services.CrmService;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 @Route(value = "issue", layout = MainLayout.class)
 @PermitAll
@@ -36,6 +38,8 @@ public class IssueAddView extends VerticalLayout implements HasUrlParameter<Stri
     private final BeanValidationBinder<Issue> binder = new BeanValidationBinder<>(Issue.class);
     private final SecurityService securityService;
     private final CrmService crmService;
+    private final LogPresenter logPresenter;
+    private final IssuePresenter issuePresenter;
     private CardLayout cardLayout;
     private Issue issue = new Issue();
     private Optional<Pos> savedPos;
@@ -46,6 +50,8 @@ public class IssueAddView extends VerticalLayout implements HasUrlParameter<Stri
     private final PosGrid posGrid;
     private Span header2;
     private final FormLayout formLayout = new FormLayout();
+    private Span header3;
+    private final LogGrid logGrid;
 
     private final Select<IssueType> selectIssueType = new Select<>();
     private final Select<String> subClass = new Select<>();
@@ -61,11 +67,14 @@ public class IssueAddView extends VerticalLayout implements HasUrlParameter<Stri
     private final Select<Pos> pos = new Select<>();
     private final DateTimePicker createdAt = new DateTimePicker();
     private final Select<User> owner = new Select<>();
-    public IssueAddView(SecurityService securityService, CrmService crmService, PosPresenter posPresenter){
+    public IssueAddView(SecurityService securityService, CrmService crmService, PosPresenter posPresenter, LogPresenter logPresenter, IssuePresenter issuePresenter){
         this.securityService = securityService;
+        this.logPresenter = logPresenter;
         this.crmService = crmService;
         this.posGrid = new PosGrid(posPresenter);
+        this.issuePresenter = issuePresenter;
         this.posGrid.getGrid().setAllRowsVisible(true);
+        this.logGrid = new LogGrid(logPresenter);
 
         add(topText, new Hr());
         cardLayout = new CardLayout();
@@ -73,6 +82,7 @@ public class IssueAddView extends VerticalLayout implements HasUrlParameter<Stri
         cardLayout.addComponent(posGrid.getGrid());
         header2 = cardLayout.addTitle("Add issue");
         cardLayout.addComponent(formLayout);
+
 
         add(cardLayout);
         add(getSubmitButton());
@@ -117,6 +127,16 @@ public class IssueAddView extends VerticalLayout implements HasUrlParameter<Stri
         formLayout.setColspan(innerLayout, 3);
 
     }
+    private void updateReadability(){
+        if (!editMode) {
+            assignedTo.setReadOnly(true);
+            status.setValue(new Status(1L, "New"));
+            status.setReadOnly(true);
+        } else {
+            assignedTo.setReadOnly(false);
+            status.setReadOnly(false);
+        }
+    }
     private void bindFields(){
         binder.bind(selectIssueType, Issue::getType, Issue::setType);
 //        binder.bind(subClass, Issue::getSubclass, Issue::setSubclass);
@@ -138,39 +158,34 @@ public class IssueAddView extends VerticalLayout implements HasUrlParameter<Stri
 
     }
     private Button getSubmitButton(){
-        Button submitButton = new Button("Submit", event -> {
-            try {
-                binder.writeBean(issue);
-                if (!editMode){
-                    issue.setCreatedDate(LocalDateTime.now());
-                } else {
-                    issue.setModifiedDate(LocalDateTime.now());
-                }
-
-                crmService.saveIssue(issue);
-                Notification.show("Issue saved successfully", 5000, Notification.Position.TOP_CENTER);
-                UI.getCurrent().navigate(IssuesView.class);
-            } catch (Exception e) {
-                Notification.show("Unexpected error: " + e.getMessage(), 5000, Notification.Position.TOP_CENTER);
-            }
-        });
+        Button submitButton = new Button("Submit", event -> issuePresenter.onSubmitButtonClick(binder, issue, editMode));
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         return submitButton;
+    }
+    private void blockInput(){
+        selectIssueType.setReadOnly(true);
+        subClass.setReadOnly(true);
+        problem.setReadOnly(true);
+        priority.setReadOnly(true);
+        status.setReadOnly(true);
+        problemDescription.setReadOnly(true);
+        solution.setReadOnly(true);
+        assignedTo.setReadOnly(true);
+        memo.setReadOnly(true);
     }
     @Override
     public void setParameter(BeforeEvent event, @WildcardParameter String parameter) {
         //TODO: refactor the if blocks
         if (parameter != null && parameter.startsWith("pos")) {
             String posId = parameter.substring(4);
-            System.out.println("Looking for a pos with id " + posId);
             savedPos = crmService.findPosById(Long.valueOf(posId));
             if (savedPos.isPresent()) {
                 posGrid.getGrid().setItems(savedPos.get());
                 editMode = false;
                 pos.setValue(savedPos.get());
                 owner.setValue(crmService.findUserByUsername(securityService.getAuthenticatedUser().getUsername()));
-
+                updateReadability();
             } else {
                 UI.getCurrent().navigate("issue/new");
                 Notification.show("Pos not found", 5000, Notification.Position.TOP_CENTER); //TODO: change to error notification
@@ -178,8 +193,19 @@ public class IssueAddView extends VerticalLayout implements HasUrlParameter<Stri
         } else if (parameter != null && !parameter.isEmpty()){
             Optional<Issue> savedIssue = crmService.findIssueById(Long.valueOf(parameter));
             if (savedIssue.isPresent()){
+                editMode = true;
                 posGrid.getGrid().setItems(savedIssue.get().getPos());
                 binder.setBean(savedIssue.get());
+                topText.setText("Issue Details");
+
+                if (cardLayout.getComponentCount() > 4) {
+                    cardLayout.getComponentAt(4).removeFromParent();
+                    cardLayout.getComponentAt(4).removeFromParent();
+                }
+                header3 = cardLayout.addTitle("Issue Logs");
+                cardLayout.addComponent(logGrid.getGridBlock(savedIssue.get()));
+                updateReadability();
+                if (savedIssue.get().getStatus().getName().equals("Closed")) blockInput();
             } else {
                 UI.getCurrent().navigate("issues");
                 Notification.show("Issue not found", 5000, Notification.Position.TOP_CENTER); //TODO: change to error notification

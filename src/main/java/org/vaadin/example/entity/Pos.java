@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.builder.HashCodeExclude;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -35,5 +36,6 @@ public class Pos { // Point of Sale
     private String closedDays;
     private LocalDateTime insertDate;
     @OneToMany(fetch = FetchType.EAGER)
+    @HashCodeExclude
     private List<Issue> issues;
 }

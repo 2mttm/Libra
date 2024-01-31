@@ -59,7 +59,7 @@ public class UsersGrid extends VerticalLayout {
             boolean matchesEmail = matchesTerm(user.getEmail(), searchTerm);
             boolean matchesLogin = matchesTerm(user.getLogin(), searchTerm);
             boolean matchesPhone = matchesTerm(user.getTelephone(), searchTerm);
-            boolean matchesGroup = matchesTerm(user.getUserGroup().getName(), searchTerm);
+            boolean matchesGroup = matchesTerm(String.valueOf(user.getUserGroup()), searchTerm);
 
             return matchesName || matchesEmail || matchesGroup || matchesLogin || matchesPhone;
         });
@@ -79,7 +79,7 @@ public class UsersGrid extends VerticalLayout {
         grid.addColumn(user -> user.getEmail()).setHeader("Email");
         grid.addColumn(user -> user.getLogin()).setHeader("Login");
         grid.addColumn(user -> user.getTelephone()).setHeader("Telephone");
-        grid.addColumn(user -> user.getUserGroup().getName()).setHeader("User Group");
+        grid.addColumn(user -> user.getUserGroup()).setHeader("User Group");
 
         grid.getColumns().forEach(col -> {
             col.setAutoWidth(true);

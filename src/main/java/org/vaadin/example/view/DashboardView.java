@@ -15,24 +15,24 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteParameters;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import jakarta.annotation.security.PermitAll;
-import org.vaadin.example.services.CrmService;
+import org.vaadin.example.presenter.IssuePresenter;
 
 @Route(value = "", layout = MainLayout.class)
 @PageTitle("Dashboard | Libra")
 @PermitAll
 public class DashboardView extends VerticalLayout {
-    public DashboardView(CrmService crmService) {
+    public DashboardView(IssuePresenter issuePresenter) {
         add(new H1("Dashboard"), new Hr());
 
         HorizontalLayout dashboardLayout = new HorizontalLayout();
-        dashboardLayout.add(createDashboardItem(VaadinIcon.ALIGN_RIGHT, "New Issues", crmService.findAllIssues("New Issues").size(), "error"));
-        dashboardLayout.add(createDashboardItem(VaadinIcon.ELLIPSIS_CIRCLE_O, "Pending Issues", 3, "warning"));
-        dashboardLayout.add(createDashboardItem(VaadinIcon.ARROW_FORWARD, "Assigned Issues", 2, "primary"));
-        dashboardLayout.add(createDashboardItem(VaadinIcon.REFRESH, "In Progress Issues", 3, "success"));
+        dashboardLayout.add(createDashboardItem(VaadinIcon.ALIGN_RIGHT, "New Issues", issuePresenter.findAllIssuesByStatus(1L).size(), "error"));
+        dashboardLayout.add(createDashboardItem(VaadinIcon.ELLIPSIS_CIRCLE_O, "Pending Issues", issuePresenter.findAllIssuesByStatus(2L).size(), "warning"));
+        dashboardLayout.add(createDashboardItem(VaadinIcon.ARROW_FORWARD, "Assigned Issues", issuePresenter.findAllIssuesByStatus(3L).size(), "primary"));
+        dashboardLayout.add(createDashboardItem(VaadinIcon.REFRESH, "In Progress Issues", issuePresenter.findAllIssuesByStatus(4L).size(), "success"));
         dashboardLayout.setWidthFull();
         add(dashboardLayout);
 
-        add(new IssuesView(crmService));
+        add(new IssuesView(issuePresenter));
     }
 
     private Component createDashboardItem(VaadinIcon icon, String text, int amount, String theme) {
