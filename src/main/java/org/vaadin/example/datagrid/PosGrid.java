@@ -123,8 +123,8 @@ public class PosGrid extends VerticalLayout {
         grid.addColumn(pos -> pos.getAddress()).setHeader("Address");
         grid.addColumn(pos -> {
             int issuesSize = pos.getIssues().size();
-            if (issuesSize > 0) return issuesSize;
-            return "No issues";
+            if (issuesSize > 0) return issuesSize + " issues";
+            else return "No issues";
         }).setHeader("Status");
 
         grid.getColumns().forEach(col -> {

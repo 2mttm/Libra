@@ -35,7 +35,7 @@ public class Pos { // Point of Sale
     @Column(columnDefinition = "SET('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')")
     private String closedDays;
     private LocalDateTime insertDate;
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "pos", fetch = FetchType.EAGER)
     @HashCodeExclude
     private List<Issue> issues;
 }
