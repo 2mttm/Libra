@@ -12,10 +12,10 @@ import org.vaadin.example.presenter.PosPresenter;
 @Route(value = "poses", layout = MainLayout.class)
 @PageTitle("POS | Libra")
 @PermitAll
-public class PosView extends VerticalLayout {
+public class PosesView extends VerticalLayout {
     private PosPresenter posPresenter;
     private PosGrid posGrid;
-    public PosView(PosPresenter posPresenter) {
+    public PosesView(PosPresenter posPresenter) {
         this.posPresenter = posPresenter;
         this.posGrid = new PosGrid(posPresenter);
         setSizeFull();

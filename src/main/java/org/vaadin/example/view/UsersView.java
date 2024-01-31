@@ -12,11 +12,11 @@ import org.vaadin.example.presenter.UserPresenter;
 @Route(value = "users", layout = MainLayout.class)
 @PageTitle("Users | Libra")
 @RolesAllowed("ROLE_ADMIN")
-public class UserView extends VerticalLayout {
+public class UsersView extends VerticalLayout {
     private final UserPresenter userPresenter;
     private final UsersGrid usersGrid;
 
-    public UserView(UserPresenter userPresenter) {
+    public UsersView(UserPresenter userPresenter) {
         this.userPresenter = userPresenter;
         this.usersGrid = new UsersGrid(this.userPresenter);
         setSizeFull();

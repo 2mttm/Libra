@@ -16,8 +16,13 @@ public class IssueType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private int issueLevel;
-    @ManyToOne
-    private Issue parentIssue;
+//    @ManyToOne
+//    private Issue parentIssue;
     private String name;
     private LocalDateTime insertDate;
+
+    @Override
+    public String toString(){
+        return this.name;
+    }
 }

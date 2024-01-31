@@ -32,7 +32,7 @@ public class DashboardView extends VerticalLayout {
         dashboardLayout.setWidthFull();
         add(dashboardLayout);
 
-        add(new IssueView(crmService));
+        add(new IssuesView(crmService));
     }
 
     private Component createDashboardItem(VaadinIcon icon, String text, int amount, String theme) {
@@ -66,7 +66,7 @@ public class DashboardView extends VerticalLayout {
         b.setWidthFull();
         b.getStyle().set("margin", "0");
         b.addClickListener(event -> {
-            UI.getCurrent().navigate(IssueView.class, new RouteParameters("filterText", text));
+            UI.getCurrent().navigate(IssuesView.class, new RouteParameters("filterText", text));
         });
 
         innerLayout.add(amountText, messageText);

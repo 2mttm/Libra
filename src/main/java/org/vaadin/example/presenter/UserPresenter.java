@@ -9,7 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.vaadin.example.entity.User;
 import org.vaadin.example.services.CrmService;
-import org.vaadin.example.view.UserView;
+import org.vaadin.example.view.UsersView;
 
 import java.util.List;
 
@@ -76,7 +76,7 @@ public class UserPresenter {
                 user.setPassword(passwordEncoder.encode(user.getPassword()));
             }
             crmService.saveUser(user);
-            UI.getCurrent().navigate(UserView.class);
+            UI.getCurrent().navigate(UsersView.class);
             Notification.show("User saved successfully", 5000, Notification.Position.TOP_CENTER);
         } catch (Exception e) {
             Notification.show("Unexpected error: " + e.getMessage(), 5000, Notification.Position.TOP_CENTER);

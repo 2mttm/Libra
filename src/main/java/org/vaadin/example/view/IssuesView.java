@@ -19,11 +19,11 @@ import java.util.List;
 @Route(value = "issues/:filterText?", layout = MainLayout.class)
 @PageTitle("Issues | Libra")
 @PermitAll
-public class IssueView extends VerticalLayout implements BeforeEnterObserver {
+public class IssuesView extends VerticalLayout implements BeforeEnterObserver {
     Grid<Issue> grid = new Grid<>(Issue.class, false);
     TextField searchField = new TextField();
 
-    public IssueView(CrmService crmService) {
+    public IssuesView(CrmService crmService) {
         setSizeFull();
         configureGrid();
 

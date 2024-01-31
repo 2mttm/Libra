@@ -6,7 +6,7 @@ import com.vaadin.flow.component.notification.Notification;
 import org.springframework.stereotype.Service;
 import org.vaadin.example.entity.Pos;
 import org.vaadin.example.services.CrmService;
-import org.vaadin.example.view.PosView;
+import org.vaadin.example.view.PosesView;
 
 import java.util.List;
 @Service
@@ -42,7 +42,7 @@ public class PosPresenter {
 
         dialog.addConfirmListener(event -> {
             crmService.deletePos(pos);
-            UI.getCurrent().navigate(PosView.class); //TODO: it doesn't update the page
+            UI.getCurrent().navigate(PosesView.class); //TODO: it doesn't update the page
         });
         dialog.open();
     }

@@ -181,7 +181,7 @@ public class PosAddView extends VerticalLayout implements HasUrlParameter<String
                 binder.writeBean(pos);
                 crmService.savePos(pos);
                 Notification.show("Pos saved successfully", 5000, Notification.Position.TOP_CENTER);
-                UI.getCurrent().navigate(PosView.class);
+                UI.getCurrent().navigate(PosesView.class);
             } catch (Exception e) {
                 Notification.show("Unexpected error: " + e.getMessage(), 5000, Notification.Position.TOP_CENTER);
             }
@@ -196,7 +196,6 @@ public class PosAddView extends VerticalLayout implements HasUrlParameter<String
             Optional<Pos> savedPos = crmService.findPosById(Long.valueOf(parameter));
             if (savedPos.isPresent()) {
                 pos = savedPos.get();
-                System.out.println("Checkpoint");
                 createFormCard(true);
             } else {
                 UI.getCurrent().navigate("pos/new");

@@ -60,18 +60,18 @@ public class MainLayout extends AppLayout {
 
         SideNavItem posMenu = new SideNavItem("POS");
         posMenu.setPrefixComponent(VaadinIcon.CREDIT_CARD.create());
-        posMenu.addItem(new SideNavItem("Add POS", PosAddView.class));
-        posMenu.addItem(new SideNavItem("Browse POS", PosView.class));
+        posMenu.addItem(new SideNavItem("Add POS", "pos/new"));
+        posMenu.addItem(new SideNavItem("Browse POS", PosesView.class));
 
         SideNavItem issuesMenu = new SideNavItem("Issues");
         issuesMenu.setPrefixComponent(VaadinIcon.WRENCH.create());
-        issuesMenu.addItem(new SideNavItem("Add Issue", IssueAddView.class));
-        issuesMenu.addItem(new SideNavItem("Browse Issues", IssueView.class));
+        issuesMenu.addItem(new SideNavItem("Add Issue", "issue/new"));
+        issuesMenu.addItem(new SideNavItem("Browse Issues", IssuesView.class));
 
         SideNavItem usersMenu = new SideNavItem("Users");
         usersMenu.setPrefixComponent(VaadinIcon.USERS.create());
         usersMenu.addItem(new SideNavItem("Add User", "user/new"));
-        usersMenu.addItem(new SideNavItem("Browse Users", UserView.class));
+        usersMenu.addItem(new SideNavItem("Browse Users", UsersView.class));
 
         sideNav.addItem(
                 new SideNavItem("Dashboard", DashboardView.class, VaadinIcon.DASHBOARD.create()),

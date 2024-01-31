@@ -11,7 +11,7 @@ public class CardLayout extends VerticalLayout{
         setPadding(false);
         addClassNames("border", "border-primary-50", "rounded-m");
     }
-    public void addTitle(String text){
+    public Span addTitle(String text){
         VerticalLayout titleLayout = new VerticalLayout();
         titleLayout.addClassNames("bg-primary-10");
 
@@ -20,6 +20,8 @@ public class CardLayout extends VerticalLayout{
 
         titleLayout.add(titleText);
         add(titleLayout);
+
+        return titleText;
     }
     public void addComponent(Component component){
         add(new VerticalLayout(component));

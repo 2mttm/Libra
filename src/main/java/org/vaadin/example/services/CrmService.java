@@ -15,14 +15,18 @@ public class CrmService {
     private final UserGroupRepository userGroupRepository;
     private final CityRepository cityRepository;
     private final ConnectionTypeRepository connectionTypeRepository;
+    private final IssueTypeRepository issueTypeRepository;
+    private final StatusRepository statusRepository;
 
-    public CrmService(IssueRepository issueRepository, PosRepository posRepository, UserRepository userRepository, UserGroupRepository userGroupRepository, CityRepository cityRepository, ConnectionTypeRepository connectionTypeRepository) {
+    public CrmService(IssueRepository issueRepository, PosRepository posRepository, UserRepository userRepository, UserGroupRepository userGroupRepository, CityRepository cityRepository, ConnectionTypeRepository connectionTypeRepository, IssueTypeRepository issueTypeRepository, StatusRepository statusRepository) {
         this.issueRepository = issueRepository;
         this.posRepository = posRepository;
         this.userRepository = userRepository;
         this.userGroupRepository = userGroupRepository;
         this.cityRepository = cityRepository;
         this.connectionTypeRepository = connectionTypeRepository;
+        this.issueTypeRepository = issueTypeRepository;
+        this.statusRepository = statusRepository;
     }
 
     public List<Issue> findAllIssues(String stringFilter) {
@@ -91,4 +95,19 @@ public class CrmService {
         return connectionTypeRepository.findAll();
     }
 
+    public Optional<Issue> findIssueById(Long id) {
+        return issueRepository.findById(id);
+    }
+
+    public List<IssueType> findAllIssueTypes() {
+        return issueTypeRepository.findAll();
+    }
+
+    public List<Status> findAllStatuses() {
+        return statusRepository.findAll();
+    }
+
+    public User findUserByUsername(String username) {
+        return userRepository.findByLogin(username);
+    }
 }
