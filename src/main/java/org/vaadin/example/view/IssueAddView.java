@@ -17,10 +17,7 @@ import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.converter.StringToLongConverter;
-import com.vaadin.flow.router.BeforeEvent;
-import com.vaadin.flow.router.HasUrlParameter;
-import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.WildcardParameter;
+import com.vaadin.flow.router.*;
 import jakarta.annotation.security.PermitAll;
 import org.vaadin.example.datagrid.LogGrid;
 import org.vaadin.example.datagrid.PosGrid;
@@ -33,6 +30,7 @@ import org.vaadin.example.services.CrmService;
 
 import java.util.Optional;
 @Route(value = "issue", layout = MainLayout.class)
+@PageTitle("Issues | Libra")
 @PermitAll
 public class IssueAddView extends VerticalLayout implements HasUrlParameter<String> {
     private final BeanValidationBinder<Issue> binder = new BeanValidationBinder<>(Issue.class);

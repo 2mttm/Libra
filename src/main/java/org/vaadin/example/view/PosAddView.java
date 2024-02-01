@@ -17,10 +17,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.timepicker.TimePicker;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.converter.StringToLongConverter;
-import com.vaadin.flow.router.BeforeEvent;
-import com.vaadin.flow.router.HasUrlParameter;
-import com.vaadin.flow.router.OptionalParameter;
-import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.*;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import jakarta.annotation.security.PermitAll;
 import org.vaadin.example.converter.SetToStringConverter;
@@ -32,6 +29,7 @@ import org.vaadin.example.services.CrmService;
 import java.util.Optional;
 
 @Route(value = "pos", layout = MainLayout.class)
+@PageTitle("POS | Libra")
 @PermitAll
 public class PosAddView extends VerticalLayout implements HasUrlParameter<String> {
     private final BeanValidationBinder<Pos> binder = new BeanValidationBinder<>(Pos.class);
