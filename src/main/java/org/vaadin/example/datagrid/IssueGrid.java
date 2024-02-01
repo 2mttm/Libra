@@ -54,7 +54,7 @@ public class IssueGrid extends VerticalLayout {
             boolean matchesDate = matchesTerm(issue.getCreatedDate().toString(), searchTerm);
             boolean matchesType = matchesTerm(issue.getType().getName(), searchTerm);
             boolean matchesStatus = matchesTerm(issue.getStatus().getName(), searchTerm);
-            boolean matchesAssignee = matchesTerm(issue.getAssignedGroup().getName(), searchTerm);
+            boolean matchesAssignee = matchesTerm(String.valueOf(issue.getAssignedGroup()), searchTerm);
             boolean matchesMemo = matchesTerm(issue.getMemo(), searchTerm);
 
             return matchesId || matchesPos || matchesOwner || matchesDate || matchesType || matchesStatus || matchesAssignee || matchesMemo;

@@ -83,7 +83,6 @@ public class IssueAddView extends VerticalLayout implements HasUrlParameter<Stri
         header2 = cardLayout.addTitle("Add issue");
         cardLayout.addComponent(formLayout);
 
-
         add(cardLayout);
         add(getSubmitButton());
 
@@ -115,15 +114,17 @@ public class IssueAddView extends VerticalLayout implements HasUrlParameter<Stri
         solution.setMinHeight("135px");
 
         innerLayout.add(assignedTo, memo);
-        formLayout.add(selectIssueType, subClass, problem, priority, status, problemDescription, solution, innerLayout);
+        formLayout.add(selectIssueType, priority, memo, assignedTo, status, problemDescription, solution);
 
         formLayout.setColspan(selectIssueType, 2);
         formLayout.setColspan(subClass, 3);
         formLayout.setColspan(problem, 3);
         formLayout.setColspan(priority, 2);
         formLayout.setColspan(status, 2);
-        formLayout.setColspan(problemDescription, 5);
-        formLayout.setColspan(solution, 4);
+        formLayout.setColspan(memo, 3);
+        formLayout.setColspan(assignedTo, 3);
+        formLayout.setColspan(problemDescription, 6);
+        formLayout.setColspan(solution, 6);
         formLayout.setColspan(innerLayout, 3);
 
     }
