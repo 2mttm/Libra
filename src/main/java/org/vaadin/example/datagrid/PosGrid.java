@@ -115,6 +115,7 @@ public class PosGrid extends VerticalLayout {
     }
 
     private void configureGrid() {
+        grid.addClassName("styling");
 //        grid.setSizeFull();
         grid.addColumn(pos -> pos.getId()).setHeader("ID");
         grid.addColumn(pos -> pos.getName()).setHeader("Name");
@@ -122,10 +123,18 @@ public class PosGrid extends VerticalLayout {
         grid.addColumn(pos -> pos.getCellphone()).setHeader("Cellphone");
         grid.addColumn(pos -> pos.getAddress()).setHeader("Address");
         grid.addColumn(pos -> {
-            int issuesSize = pos.getIssues().size();
-            if (issuesSize > 0) return issuesSize + " issues";
+            long issuesSize = pos.getIssues().stream()
+                    .filter(p -> !p.getStatus().getName().equals("Closed"))
+                    .count();
+            if (issuesSize > 0L) return issuesSize + " active issues";
             else return "No issues";
-        }).setHeader("Status");
+        }).setHeader("Status").setPartNameGenerator(pos -> {
+            long issuesSize = pos.getIssues().stream()
+                    .filter(p -> !p.getStatus().getName().equals("Closed"))
+                    .count();
+            if (issuesSize > 0L) return "issues-error text-error";
+            else return null;
+        });
 
         grid.getColumns().forEach(col -> {
             col.setAutoWidth(true);
