@@ -17,9 +17,8 @@ import org.vaadin.example.presenter.UserPresenter;
 
 public class UsersGrid extends VerticalLayout {
     private final UserPresenter userPresenter;
-    private Grid<User> grid = new Grid<>(User.class, false);
-    private GridListDataView<User> dataView;
-
+    private final Grid<User> grid = new Grid<>(User.class, false);
+    private final GridListDataView<User> dataView;
     public UsersGrid(UserPresenter userPresenter){
         this.userPresenter = userPresenter;
         configureGrid();

@@ -13,12 +13,10 @@ import org.vaadin.example.presenter.UserPresenter;
 @PageTitle("Users | Libra")
 @RolesAllowed("ROLE_ADMIN")
 public class UsersView extends VerticalLayout {
-    private final UserPresenter userPresenter;
     private final UsersGrid usersGrid;
 
     public UsersView(UserPresenter userPresenter) {
-        this.userPresenter = userPresenter;
-        this.usersGrid = new UsersGrid(this.userPresenter);
+        this.usersGrid = new UsersGrid(userPresenter);
         setSizeFull();
 
         add(new H1("Users Manager"), new Hr());

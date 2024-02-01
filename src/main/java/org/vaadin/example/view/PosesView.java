@@ -13,14 +13,13 @@ import org.vaadin.example.presenter.PosPresenter;
 @PageTitle("POS | Libra")
 @PermitAll
 public class PosesView extends VerticalLayout {
-    private PosPresenter posPresenter;
-    private PosGrid posGrid;
+    private final PosGrid posGrid;
     public PosesView(PosPresenter posPresenter) {
-        this.posPresenter = posPresenter;
         this.posGrid = new PosGrid(posPresenter);
         setSizeFull();
 
         add(new H1("Pos Manager"), new Hr());
+        add(posGrid.getCombinedFilter());
         add(posGrid.getGrid());
     }
 }

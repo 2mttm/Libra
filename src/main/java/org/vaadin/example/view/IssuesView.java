@@ -14,12 +14,10 @@ import org.vaadin.example.presenter.IssuePresenter;
 @PageTitle("Issues | Libra")
 @PermitAll
 public class IssuesView extends VerticalLayout implements BeforeEnterObserver {
-    private final IssuePresenter issuePresenter;
     private final IssueGrid issueGrid;
 
     public IssuesView(IssuePresenter issuePresenter) {
-        this.issuePresenter = issuePresenter;
-        this.issueGrid = new IssueGrid(this.issuePresenter);
+        this.issueGrid = new IssueGrid(issuePresenter);
         setSizeFull();
 
         add(new H1("Issues Manager"), new Hr());

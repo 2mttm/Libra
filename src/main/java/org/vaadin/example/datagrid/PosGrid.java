@@ -16,8 +16,8 @@ import org.vaadin.example.presenter.PosPresenter;
 
 public class PosGrid extends VerticalLayout {
     private final PosPresenter posPresenter;
-    private Grid<Pos> grid = new Grid<>(Pos.class, false);
-    private GridListDataView<Pos> dataView;
+    private final Grid<Pos> grid = new Grid<>(Pos.class, false);
+    private final GridListDataView<Pos> dataView;
 
     public PosGrid(PosPresenter posPresenter) {
         this.posPresenter = posPresenter;

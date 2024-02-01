@@ -40,15 +40,15 @@ public class IssueAddView extends VerticalLayout implements HasUrlParameter<Stri
     private final CrmService crmService;
     private final LogPresenter logPresenter;
     private final IssuePresenter issuePresenter;
-    private CardLayout cardLayout;
-    private Issue issue = new Issue();
+    private final CardLayout cardLayout;
+    private final Issue issue = new Issue();
     private Optional<Pos> savedPos;
     private boolean editMode = true;
 
     private final H1 topText = new H1("New Issue");
-    private Span header1;
+    private final Span header1;
     private final PosGrid posGrid;
-    private Span header2;
+    private final Span header2;
     private final FormLayout formLayout = new FormLayout();
     private Span header3;
     private final LogGrid logGrid;

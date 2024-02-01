@@ -38,25 +38,25 @@ public class PosAddView extends VerticalLayout implements HasUrlParameter<String
     private final CrmService crmService;
     private Pos pos = new Pos();
 
-    private H1 topText = new H1("New POS");
+    private final H1 topText = new H1("New POS");
 
-    private Span text1 = new Span("POS basic data");
-    private TextField id = new TextField("ID");
-    private TextField name = new TextField("Name");
-    private TextField telephone = new TextField("Telephone");
-    private TextField cellphone = new TextField("Cellphone");
-    private TextField address = new TextField("Full address");
-    private ComboBox<City> city = new ComboBox<>("City");
-    private TextField brand = new TextField("Brand");
-    private TextField model = new TextField("Model");
-    private Select<ConnectionType> connection = new Select<>();
+    private final Span text1 = new Span("POS basic data");
+    private final TextField id = new TextField("ID");
+    private final TextField name = new TextField("Name");
+    private final TextField telephone = new TextField("Telephone");
+    private final TextField cellphone = new TextField("Cellphone");
+    private final TextField address = new TextField("Full address");
+    private final ComboBox<City> city = new ComboBox<>("City");
+    private final TextField brand = new TextField("Brand");
+    private final TextField model = new TextField("Model");
+    private final Select<ConnectionType> connection = new Select<>();
 
-    private Span text2 = new Span("Opening hours and holidays");
-    private TimePicker morningOpening = new TimePicker("Morning");
-    private TimePicker morningClosing = new TimePicker();
-    private TimePicker afternoonOpening = new TimePicker("Afternoon");
-    private TimePicker afternoonClosing = new TimePicker();
-    private CheckboxGroup<String> closedDaysCheckBoxGroup = new CheckboxGroup<>();
+    private final Span text2 = new Span("Opening hours and holidays");
+    private final TimePicker morningOpening = new TimePicker("Morning");
+    private final TimePicker morningClosing = new TimePicker();
+    private final TimePicker afternoonOpening = new TimePicker("Afternoon");
+    private final TimePicker afternoonClosing = new TimePicker();
+    private final CheckboxGroup<String> closedDaysCheckBoxGroup = new CheckboxGroup<>();
 
     private Button submitButton;
 

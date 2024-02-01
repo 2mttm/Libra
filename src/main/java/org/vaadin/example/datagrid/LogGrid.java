@@ -16,8 +16,8 @@ import org.vaadin.example.presenter.LogPresenter;
 
 public class LogGrid extends VerticalLayout {
     private final LogPresenter logPresenter;
-    private Grid<Log> grid = new Grid<>(Log.class, false);
-    private GridListDataView<Log> dataView = grid.getListDataView();
+    private final Grid<Log> grid = new Grid<>(Log.class, false);
+    private final GridListDataView<Log> dataView = grid.getListDataView();
 
     public LogGrid(LogPresenter logPresenter) {
         this.logPresenter = logPresenter;

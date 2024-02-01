@@ -15,9 +15,9 @@ import org.vaadin.example.presenter.IssuePresenter;
 @Component
 public class IssueGrid extends VerticalLayout {
     private final IssuePresenter issuePresenter;
-    private Grid<Issue> grid = new Grid<>(Issue.class, false);
-    private GridListDataView<Issue> dataView;
-    private TextField combinedSearchField = new TextField();
+    private final Grid<Issue> grid = new Grid<>(Issue.class, false);
+    private final GridListDataView<Issue> dataView;
+    private final TextField combinedSearchField = new TextField();
     public IssueGrid(IssuePresenter issuePresenter) {
         this.issuePresenter = issuePresenter;
         configureGrid();

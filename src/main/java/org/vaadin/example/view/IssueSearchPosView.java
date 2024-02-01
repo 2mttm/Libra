@@ -12,8 +12,8 @@ import org.vaadin.example.presenter.PosPresenter;
 @Route(value = "issue/new", layout = MainLayout.class)
 @PermitAll
 public class IssueSearchPosView extends VerticalLayout {
-    private CardLayout cardLayout = new CardLayout();
-    private H1 topText = new H1("New Issue");
+    private final CardLayout cardLayout = new CardLayout();
+    private final H1 topText = new H1("New Issue");
     private final PosGrid posGrid;
     public IssueSearchPosView(PosPresenter posPresenter){
         this.posGrid = new PosGrid(posPresenter);
