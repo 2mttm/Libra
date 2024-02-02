@@ -124,7 +124,6 @@ public class IssueAddView extends VerticalLayout implements HasUrlParameter<Stri
         formLayout.setColspan(problemDescription, 6);
         formLayout.setColspan(solution, 6);
         formLayout.setColspan(innerLayout, 3);
-
     }
     private void updateReadability(){
         if (!editMode) {
@@ -196,6 +195,8 @@ public class IssueAddView extends VerticalLayout implements HasUrlParameter<Stri
                 posGrid.getGrid().setItems(savedIssue.get().getPos());
                 binder.setBean(savedIssue.get());
                 topText.setText("Issue Details");
+                header1.setText("Selected POS");
+                header2.setText("Edit Issue");
 
                 if (cardLayout.getComponentCount() > 4) {
                     cardLayout.getComponentAt(4).removeFromParent();
@@ -204,7 +205,11 @@ public class IssueAddView extends VerticalLayout implements HasUrlParameter<Stri
                 header3 = cardLayout.addTitle("Issue Logs");
                 cardLayout.addComponent(logGrid.getGridBlock(savedIssue.get()));
                 updateReadability();
-                if (savedIssue.get().getStatus().getName().equals("Closed")) blockInput();
+
+                User currentUser = crmService.findUserByUsername(securityService.getAuthenticatedUser().getUsername());
+                if (savedIssue.get().getStatus().getName().equals("Closed") ||
+                        (!savedIssue.get().getOwner().getName().equals(currentUser.getLogin())) &&
+                        !savedIssue.get().getAssignedGroup().equals(currentUser.getUserGroup())) blockInput();
             } else {
                 UI.getCurrent().navigate("issues");
                 Notification.show("Issue not found", 5000, Notification.Position.TOP_CENTER); //TODO: change to error notification
