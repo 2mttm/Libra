@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Pos { // Point of Sale
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String telephone;

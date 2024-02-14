@@ -26,6 +26,7 @@ import org.vaadin.example.entity.ConnectionType;
 import org.vaadin.example.entity.Pos;
 import org.vaadin.example.services.CrmService;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Route(value = "pos", layout = MainLayout.class)
@@ -177,6 +178,7 @@ public class PosAddView extends VerticalLayout implements HasUrlParameter<String
         Button submitButton = new Button("Submit", event -> {
             try {
                 binder.writeBean(pos);
+                pos.setInsertDate(LocalDateTime.now());
                 crmService.savePos(pos);
                 Notification.show("Pos saved successfully", 5000, Notification.Position.TOP_CENTER);
                 UI.getCurrent().navigate(PosesView.class);
