@@ -20,10 +20,10 @@ import com.vaadin.flow.data.converter.StringToLongConverter;
 import com.vaadin.flow.router.*;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import jakarta.annotation.security.PermitAll;
-import org.vaadin.example.converter.SetToStringConverter;
 import org.vaadin.example.entity.City;
 import org.vaadin.example.entity.ConnectionType;
 import org.vaadin.example.entity.Pos;
+import org.vaadin.example.entity.Weekday;
 import org.vaadin.example.services.CrmService;
 
 import java.time.LocalDateTime;
@@ -55,7 +55,7 @@ public class PosAddView extends VerticalLayout implements HasUrlParameter<String
     private final TimePicker morningClosing = new TimePicker();
     private final TimePicker afternoonOpening = new TimePicker("Afternoon");
     private final TimePicker afternoonClosing = new TimePicker();
-    private final CheckboxGroup<String> closedDaysCheckBoxGroup = new CheckboxGroup<>();
+    private final CheckboxGroup<Weekday> closedDaysCheckBoxGroup = new CheckboxGroup<>();
 
     private Button submitButton;
 
@@ -98,7 +98,7 @@ public class PosAddView extends VerticalLayout implements HasUrlParameter<String
         afternoonClosing.setPlaceholder("Closing");
 
         closedDaysCheckBoxGroup.setLabel("Closing Days");
-        closedDaysCheckBoxGroup.setItems("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
+        closedDaysCheckBoxGroup.setItems(crmService.findAllWeekdays());
 
         FormLayout form1 = new FormLayout();
         form1.getStyle().set("padding", "15px");
@@ -170,9 +170,7 @@ public class PosAddView extends VerticalLayout implements HasUrlParameter<String
         binder.bind(morningClosing, Pos::getMorningClosing, Pos::setMorningClosing);
         binder.bind(afternoonOpening, Pos::getAfternoonOpening, Pos::setAfternoonOpening);
         binder.bind(afternoonClosing, Pos::getAfternoonClosing, Pos::setAfternoonClosing);
-        binder.forField(closedDaysCheckBoxGroup)
-                .withConverter(new SetToStringConverter())
-                .bind(Pos::getClosedDays, Pos::setClosedDays);
+        binder.bind(closedDaysCheckBoxGroup, Pos::getClosedDays, Pos::setClosedDays);
     }
     private Button getSubmitButton(){
         Button submitButton = new Button("Submit", event -> {

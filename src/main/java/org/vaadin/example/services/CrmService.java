@@ -21,8 +21,10 @@ public class CrmService {
     private final StatusRepository statusRepository;
     private final LogRepository logRepository;
     private final SecurityService securityService;
+    private final WeekdayRepository weekdayRepository;
 
-    public CrmService(IssueRepository issueRepository, PosRepository posRepository, UserRepository userRepository, UserGroupRepository userGroupRepository, CityRepository cityRepository, ConnectionTypeRepository connectionTypeRepository, IssueTypeRepository issueTypeRepository, StatusRepository statusRepository, LogRepository logRepository, SecurityService securityService) {
+    public CrmService(IssueRepository issueRepository, PosRepository posRepository, UserRepository userRepository, UserGroupRepository userGroupRepository, CityRepository cityRepository, ConnectionTypeRepository connectionTypeRepository, IssueTypeRepository issueTypeRepository, StatusRepository statusRepository, LogRepository logRepository, SecurityService securityService,
+                      WeekdayRepository weekdayRepository) {
         this.issueRepository = issueRepository;
         this.posRepository = posRepository;
         this.userRepository = userRepository;
@@ -33,6 +35,7 @@ public class CrmService {
         this.statusRepository = statusRepository;
         this.logRepository = logRepository;
         this.securityService = securityService;
+        this.weekdayRepository = weekdayRepository;
     }
 
     public List<Issue> findAllIssues(String stringFilter) {
@@ -172,5 +175,9 @@ public class CrmService {
 
     public List<Log> findAllLogsByIssue(Issue issue) {
         return logRepository.findAllByIssue(issue);
+    }
+
+    public List<Weekday> findAllWeekdays() {
+        return weekdayRepository.findAll();
     }
 }

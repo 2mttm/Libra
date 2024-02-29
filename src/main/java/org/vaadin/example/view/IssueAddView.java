@@ -208,8 +208,8 @@ public class IssueAddView extends VerticalLayout implements HasUrlParameter<Stri
 
                 User currentUser = crmService.findUserByUsername(securityService.getAuthenticatedUser().getUsername());
                 if (savedIssue.get().getStatus().getName().equals("Closed") ||
-                        (!savedIssue.get().getOwner().getName().equals(currentUser.getLogin())) &&
-                        !savedIssue.get().getAssignedGroup().equals(currentUser.getUserGroup())) blockInput();
+                        (!savedIssue.get().getOwner().getId().equals(currentUser.getId())) &&
+                        !currentUser.getUserGroup().equals(savedIssue.get().getAssignedGroup())) blockInput();
             } else {
                 UI.getCurrent().navigate("issues");
                 Notification.show("Issue not found", 5000, Notification.Position.TOP_CENTER); //TODO: change to error notification

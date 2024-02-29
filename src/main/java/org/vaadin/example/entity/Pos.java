@@ -9,6 +9,7 @@ import org.apache.commons.lang3.builder.HashCodeExclude;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -32,8 +33,8 @@ public class Pos { // Point of Sale
     private LocalTime morningClosing;
     private LocalTime afternoonOpening;
     private LocalTime afternoonClosing;
-    @Column(columnDefinition = "SET('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')")
-    private String closedDays;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Weekday> closedDays;
     private LocalDateTime insertDate;
     @OneToMany(mappedBy = "pos", fetch = FetchType.EAGER)
     @HashCodeExclude

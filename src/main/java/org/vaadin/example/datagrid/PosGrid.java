@@ -1,5 +1,6 @@
 package org.vaadin.example.datagrid;
 
+import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.contextmenu.GridContextMenu;
 import com.vaadin.flow.component.grid.contextmenu.GridMenuItem;
@@ -65,8 +66,8 @@ public class PosGrid extends VerticalLayout {
         layout.add(combinedSearchField);
         return layout;
     }
-    public HorizontalLayout getSplittedFilter(){
-        HorizontalLayout layout = new HorizontalLayout();
+    public FormLayout getSplittedFilter(){
+        FormLayout layout = new FormLayout();
         layout.setWidthFull();
         //TODO: how to make it shorter???
 
