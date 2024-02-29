@@ -8,6 +8,7 @@ import com.vaadin.flow.component.html.Hr;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
@@ -25,12 +26,16 @@ public class DashboardView extends VerticalLayout {
     public DashboardView(IssuePresenter issuePresenter) {
         add(new H1("Dashboard"), new Hr());
 
-        HorizontalLayout dashboardLayout = new HorizontalLayout();
+        FlexLayout dashboardLayout = new FlexLayout();
         dashboardLayout.add(createDashboardItem(VaadinIcon.ALIGN_RIGHT, "New Issues", issuePresenter.findAllIssuesByStatus(1L).size(), "error"));
         dashboardLayout.add(createDashboardItem(VaadinIcon.ELLIPSIS_CIRCLE_O, "Pending Issues", issuePresenter.findAllIssuesByStatus(2L).size(), "warning"));
         dashboardLayout.add(createDashboardItem(VaadinIcon.ARROW_FORWARD, "Assigned Issues", issuePresenter.findAllIssuesByStatus(3L).size(), "primary"));
         dashboardLayout.add(createDashboardItem(VaadinIcon.REFRESH, "In Progress Issues", issuePresenter.findAllIssuesByStatus(4L).size(), "success"));
         dashboardLayout.setWidthFull();
+        dashboardLayout.getStyle().set("gap", "10px");
+        dashboardLayout.setFlexDirection(FlexLayout.FlexDirection.ROW);
+        dashboardLayout.setFlexWrap(FlexLayout.FlexWrap.WRAP);
+        dashboardLayout.setFlexGrow(0, dashboardLayout.getComponentAt(0));
         add(dashboardLayout);
 
         add(new IssueGrid(issuePresenter));
@@ -54,14 +59,6 @@ public class DashboardView extends VerticalLayout {
         Span messageText = new Span(text);
         messageText.addClassName(LumoUtility.FontSize.MEDIUM);
 
-//        HorizontalLayout buttonLayout = new HorizontalLayout();
-//        buttonLayout.add("View Details");
-//        buttonLayout.add(VaadinIcon.ARROW_CIRCLE_RIGHT.create());
-//        buttonLayout.setJustifyContentMode(JustifyContentMode.BETWEEN);
-//        buttonLayout.setPadding(false);
-//        buttonLayout.setSizeFull();
-//        buttonLayout.addClassNames("text-" + theme);
-
         Button b = new Button("View Details");
         b.setSuffixComponent(VaadinIcon.ARROW_CIRCLE_RIGHT.create());
         b.setWidthFull();
@@ -84,6 +81,7 @@ public class DashboardView extends VerticalLayout {
         verticalLayout.setPadding(false);
         verticalLayout.setSpacing(false);
         verticalLayout.addClassName("rounded-m");
+        verticalLayout.setMaxWidth("380px");
 
         return verticalLayout;
     }
