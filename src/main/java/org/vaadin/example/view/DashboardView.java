@@ -3,12 +3,12 @@ package org.vaadin.example.view;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Hr;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
@@ -26,16 +26,22 @@ public class DashboardView extends VerticalLayout {
     public DashboardView(IssuePresenter issuePresenter) {
         add(new H1("Dashboard"), new Hr());
 
-        FlexLayout dashboardLayout = new FlexLayout();
-        dashboardLayout.add(createDashboardItem(VaadinIcon.ALIGN_RIGHT, "New", issuePresenter.findAllIssuesByStatus(1L).size(), "error"));
-        dashboardLayout.add(createDashboardItem(VaadinIcon.ELLIPSIS_CIRCLE_O, "Pending", issuePresenter.findAllIssuesByStatus(2L).size(), "warning"));
-        dashboardLayout.add(createDashboardItem(VaadinIcon.ARROW_FORWARD, "Assigned", issuePresenter.findAllIssuesByStatus(3L).size(), "primary"));
-        dashboardLayout.add(createDashboardItem(VaadinIcon.REFRESH, "In Progress", issuePresenter.findAllIssuesByStatus(4L).size(), "success"));
+        FormLayout dashboardLayout = new FormLayout();
+        dashboardLayout.setResponsiveSteps(
+                new FormLayout.ResponsiveStep("0", 1),
+                new FormLayout.ResponsiveStep("650px", 2),
+                new FormLayout.ResponsiveStep("1200px", 4)
+        );
+
+        dashboardLayout.add(
+                createDashboardItem(VaadinIcon.ALIGN_RIGHT, "New", issuePresenter.findAllIssuesByStatus(1L).size(), "error"),
+                createDashboardItem(VaadinIcon.ELLIPSIS_CIRCLE_O, "Pending", issuePresenter.findAllIssuesByStatus(2L).size(), "warning"),
+                createDashboardItem(VaadinIcon.ARROW_FORWARD, "Assigned", issuePresenter.findAllIssuesByStatus(3L).size(), "primary"),
+                createDashboardItem(VaadinIcon.REFRESH, "In Progress", issuePresenter.findAllIssuesByStatus(4L).size(), "success")
+        );
+
         dashboardLayout.setWidthFull();
-        dashboardLayout.getStyle().set("gap", "10px");
-        dashboardLayout.setFlexDirection(FlexLayout.FlexDirection.ROW);
-        dashboardLayout.setFlexWrap(FlexLayout.FlexWrap.WRAP);
-        dashboardLayout.setFlexGrow(0, dashboardLayout.getComponentAt(0));
+        dashboardLayout.getStyle().set("margin", "-5px 0");
         add(dashboardLayout);
 
         add(new IssueGrid(issuePresenter));
@@ -80,8 +86,9 @@ public class DashboardView extends VerticalLayout {
         verticalLayout.addClassNames("border", "border-" + theme);
         verticalLayout.setPadding(false);
         verticalLayout.setSpacing(false);
+        verticalLayout.getStyle().set("margin", "10px");
         verticalLayout.addClassName("rounded-m");
-        verticalLayout.setMaxWidth("380px");
+//        verticalLayout.setMaxWidth("380px");
 
         return verticalLayout;
     }
