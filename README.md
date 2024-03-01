@@ -1,6 +1,6 @@
 # Project Libra based on Vaadin and Spring Boot
 
-This project is a Vaadin CRM, that provides managing of Points of Sale (POS) and Issues, that can be opened on them.
+This project is a Vaadin CRM, it provides managing of Points of Sale (POS) and Issues, that can be opened on them.
 
 ![image](https://github.com/2mttm/Libra/assets/74420457/6505c715-01ab-4e52-8f5e-895bb73d1c14)
 
