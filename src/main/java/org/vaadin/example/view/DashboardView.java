@@ -27,10 +27,10 @@ public class DashboardView extends VerticalLayout {
         add(new H1("Dashboard"), new Hr());
 
         FlexLayout dashboardLayout = new FlexLayout();
-        dashboardLayout.add(createDashboardItem(VaadinIcon.ALIGN_RIGHT, "New Issues", issuePresenter.findAllIssuesByStatus(1L).size(), "error"));
-        dashboardLayout.add(createDashboardItem(VaadinIcon.ELLIPSIS_CIRCLE_O, "Pending Issues", issuePresenter.findAllIssuesByStatus(2L).size(), "warning"));
-        dashboardLayout.add(createDashboardItem(VaadinIcon.ARROW_FORWARD, "Assigned Issues", issuePresenter.findAllIssuesByStatus(3L).size(), "primary"));
-        dashboardLayout.add(createDashboardItem(VaadinIcon.REFRESH, "In Progress Issues", issuePresenter.findAllIssuesByStatus(4L).size(), "success"));
+        dashboardLayout.add(createDashboardItem(VaadinIcon.ALIGN_RIGHT, "New", issuePresenter.findAllIssuesByStatus(1L).size(), "error"));
+        dashboardLayout.add(createDashboardItem(VaadinIcon.ELLIPSIS_CIRCLE_O, "Pending", issuePresenter.findAllIssuesByStatus(2L).size(), "warning"));
+        dashboardLayout.add(createDashboardItem(VaadinIcon.ARROW_FORWARD, "Assigned", issuePresenter.findAllIssuesByStatus(3L).size(), "primary"));
+        dashboardLayout.add(createDashboardItem(VaadinIcon.REFRESH, "In Progress", issuePresenter.findAllIssuesByStatus(4L).size(), "success"));
         dashboardLayout.setWidthFull();
         dashboardLayout.getStyle().set("gap", "10px");
         dashboardLayout.setFlexDirection(FlexLayout.FlexDirection.ROW);
@@ -56,7 +56,7 @@ public class DashboardView extends VerticalLayout {
         amountText.addClassName(LumoUtility.FontSize.XXXLARGE);
         amountText.getStyle().set("font-size", "56px");
 
-        Span messageText = new Span(text);
+        Span messageText = new Span(text + " Issues");
         messageText.addClassName(LumoUtility.FontSize.MEDIUM);
 
         Button b = new Button("View Details");
@@ -64,7 +64,7 @@ public class DashboardView extends VerticalLayout {
         b.setWidthFull();
         b.getStyle().set("margin", "0");
         b.addClickListener(event -> {
-            UI.getCurrent().navigate(IssuesView.class, new RouteParameters("filterText", text.split(" ")[0]));
+            UI.getCurrent().navigate(IssuesView.class, new RouteParameters("filterText", text));
         });
 
         innerLayout.add(amountText, messageText);
