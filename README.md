@@ -4,8 +4,8 @@ This project is a Vaadin CRM, that provides managing of Points of Sale (POS) and
 
 ## Building and Running the Application
 
-You can build the application using `mvn package -Pproduction`, this will create an executable .jar file in the target directory
-It is recommended to build a docker image out of the jar, using `docker build` and then use the image to launch the application
+You can build the application using `mvn package -Pproduction`, getting an executable .jar file in the target directory.
+It is recommended to build a docker image out of the jar, using `docker build` and then use it to launch the application.
 
 ## Useful links
 
