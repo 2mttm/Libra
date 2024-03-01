@@ -2,11 +2,15 @@ name: Java Maven Build and Docker Image
 
 on:
   push:
+    paths:
+      - 'src/**'
     branches:
       - main
   pull_request:
     branches:
       - main
+    paths:
+      - 'src/**'
 
 jobs:
   build_maven:
