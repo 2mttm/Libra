@@ -29,6 +29,7 @@ public class LogGrid extends VerticalLayout {
     }
     public Component getGridBlock(Issue issue){
         removeAll();
+        setPadding(false);
 
         grid.setItems(logPresenter.findAllLogsByIssue(issue));
         grid.setAllRowsVisible(true);
@@ -46,7 +47,7 @@ public class LogGrid extends VerticalLayout {
 
         layout.setWidthFull();
 
-        combinedSearchField.setWidth("50%");
+        combinedSearchField.setWidthFull();
         combinedSearchField.setPlaceholder("Search");
         combinedSearchField.setPrefixComponent(new Icon(VaadinIcon.SEARCH));
         combinedSearchField.setValueChangeMode(ValueChangeMode.EAGER);

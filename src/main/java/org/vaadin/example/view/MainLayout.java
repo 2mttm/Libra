@@ -22,13 +22,12 @@ public class MainLayout extends AppLayout {
         this.securityService = securityService;
         createHeader();
         authContext.getAuthenticatedUser(User.class).ifPresent(u -> {
-            if (u.hasRole("ROLE_ADMIN")) addToDrawer(getSideNav(true));
-            else addToDrawer(getSideNav(false));
+            addToDrawer(getSideNav(u.hasRole("ROLE_ADMIN")));
         });
     }
 
     private void createHeader() {
-        H1 logo = new H1("Libra Dashboard");
+        H1 logo = new H1("Libra");
         logo.addClassNames(
                 LumoUtility.FontSize.LARGE,
                 LumoUtility.Margin.MEDIUM);

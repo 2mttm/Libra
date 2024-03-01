@@ -20,6 +20,7 @@ public class IssueGrid extends VerticalLayout {
     private final TextField combinedSearchField = new TextField();
     public IssueGrid(IssuePresenter issuePresenter) {
         this.issuePresenter = issuePresenter;
+        setPadding(false);
         configureGrid();
 
         dataView = grid.setItems(issuePresenter.getIssues());
@@ -36,7 +37,7 @@ public class IssueGrid extends VerticalLayout {
 
         layout.setWidthFull();
 
-        combinedSearchField.setWidth("50%");
+        combinedSearchField.setWidthFull();
         combinedSearchField.setPlaceholder("Search");
         combinedSearchField.setPrefixComponent(new Icon(VaadinIcon.SEARCH));
         combinedSearchField.setValueChangeMode(ValueChangeMode.EAGER);

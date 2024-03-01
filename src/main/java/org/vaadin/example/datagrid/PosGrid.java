@@ -42,7 +42,7 @@ public class PosGrid extends VerticalLayout {
 
         layout.setWidthFull();
 
-        combinedSearchField.setWidth("50%");
+        combinedSearchField.setWidthFull();
         combinedSearchField.setPlaceholder("Search");
         combinedSearchField.setPrefixComponent(new Icon(VaadinIcon.SEARCH));
         combinedSearchField.setValueChangeMode(ValueChangeMode.EAGER);
