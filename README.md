@@ -2,6 +2,8 @@
 
 This project is a Vaadin CRM, that provides managing of Points of Sale (POS) and Issues, that can be opened on them.
 
+![image](https://github.com/2mttm/Libra/assets/74420457/6505c715-01ab-4e52-8f5e-895bb73d1c14)
+
 ## Building and Running the Application
 
 You can build the application using `mvn package -Pproduction`, getting an executable .jar file in the target directory.
