@@ -1,13 +1,17 @@
-name: 'Nightly Artifacts Cleanup'
+name: Remove old artifacts
+
 on:
   schedule:
-    - cron: '0 1 * * *' # every night at 1 am UTC
+    # Every day at 1am
+    - cron: '0 1 * * *'
 
 jobs:
-  delete-artifacts:
+  remove-old-artifacts:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+
     steps:
-      - uses: kolpav/purge-artifacts-action@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          expire-in: 0 # Set this to 0 to delete all artifacts
+    - name: Remove old artifacts
+      uses: c-hive/gha-remove-artifacts@v1
+      with:
+        age: '2 days'
