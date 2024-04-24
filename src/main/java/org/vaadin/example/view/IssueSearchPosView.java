@@ -19,6 +19,7 @@ public class IssueSearchPosView extends VerticalLayout {
     private final PosGrid posGrid;
     public IssueSearchPosView(PosPresenter posPresenter){
         this.posGrid = new PosGrid(posPresenter);
+        setSizeFull();
 
         cardLayout.addTitle("Search the POS");
         cardLayout.addComponent(posGrid.getSplittedFilter());
@@ -26,6 +27,7 @@ public class IssueSearchPosView extends VerticalLayout {
         cardLayout.addComponent(posGrid.getGrid());
 
         posGrid.getGrid().addItemDoubleClickListener(e -> UI.getCurrent().navigate("issue/pos/" + e.getItem().getId()));
+        posGrid.getGrid().setAllRowsVisible(true);
 
         add(topText, new Hr());
         add(cardLayout);

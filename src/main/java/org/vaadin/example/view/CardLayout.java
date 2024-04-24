@@ -23,7 +23,9 @@ public class CardLayout extends VerticalLayout{
 
         return titleText;
     }
-    public void addComponent(Component component){
-        add(new VerticalLayout(component));
+    public VerticalLayout addComponent(Component component){
+        VerticalLayout layout = new VerticalLayout(component);
+        add(layout);
+        return layout;
     }
 }

@@ -2,6 +2,7 @@ package org.vaadin.example.initializers;
 
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 import org.vaadin.example.entity.User;
 import org.vaadin.example.entity.UserGroup;
@@ -11,6 +12,7 @@ import org.vaadin.example.repository.UserRepository;
 import java.util.Collections;
 
 @Component
+@DependsOn({"rolesInitializer", "userGroupInitializer"})
 public class UsersInitializer implements ApplicationRunner {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
