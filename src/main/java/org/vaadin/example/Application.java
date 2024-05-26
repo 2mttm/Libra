@@ -17,7 +17,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 @PWA(name = "Project for Managing Issues", shortName = "Libra")
 //@Theme("my-theme")
-@Theme(variant = Lumo.DARK)
+//@Theme(variant = Lumo.DARK)
 public class Application implements AppShellConfigurator {
 
     public static void main(String[] args) {
